@@ -55,6 +55,11 @@ struct RewardsPage: View {
     var body: some View {
         NavigationView {
             VStack {
+                Text(displayMode == .rewards ? "Rewards" : "Punishments")
+                     .font(Font.custom("Montserrat-SemiBold", size: 30))
+                     .foregroundColor(Color("Harmony"))
+                    .multilineTextAlignment(.leading)
+                    .padding(.top, 20.0)
                 //toggles between rewards & punishments
                 Picker("Display Mode", selection: $displayMode) {
                     Text("Rewards").tag(DisplayMode.rewards)
@@ -93,24 +98,25 @@ struct RewardsPage: View {
                         }
                         
                     } else {
-                        Text("Select a punishment for this cycle's loser.")
-                            .fontWeight(.thin)
+                        Text("Select a punishment for this cycle's loser")
+                            .font(Font.custom("Montserrat-Medium",size:18))
                         ForEach($punishments) { $punishment in
                     PunishmentRow(punishment: $punishment, punishments: $punishments,selectedPunishment: $selectedPunishment, didSelectPunishment: didSelectPunishment)
                         }
                         VStack(alignment: .leading){
                             Text("Create a new punishment.")
-                                .fontWeight(.thin)
+                                .font(Font.custom("Montserrat-Medium",size:18))
                             HStack{
                                 TextField("New Punishment", text: $newPunishmentText)
+                                    .font(Font.custom("Montserrat-Regular",size:15))
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .padding()
                                 Button(action: {
                                     addNewPunishment()
                                 }) {
                                     Text("Add New")
-                                        .font(.body)
-                                        .foregroundColor(.blue)
+                                        .font(Font.custom("Montserrat-Medium",size:15))
+                                        .foregroundColor(Color("Dependability"))
                                     
                                 }
                             }
@@ -121,7 +127,7 @@ struct RewardsPage: View {
                 }
                 .padding(.bottom)
             }
-            .navigationTitle(displayMode == .rewards ? "Rewards" : "Punishments")
+         //   .navigationTitle(displayMode == .rewards ? "Rewards" : "Punishments")
         }
     }
     
@@ -180,8 +186,8 @@ struct PunishmentRow: View {
     var body: some View {
         HStack {
             Text(punishment.title)
-                .font(.headline)
-                .foregroundColor(punishment.isSelected ? .red : .primary)
+                .font(Font.custom("Montserrat-Regular",size:16))
+                .foregroundColor(punishment.isSelected ? Color("Enthusiasm") : Color.primary)
             
             Spacer()
             if punishment.isSelected {

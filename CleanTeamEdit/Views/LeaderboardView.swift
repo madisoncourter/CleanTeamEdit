@@ -18,15 +18,13 @@ struct LeaderboardView: View {
             Color("Tidy")
                 .ignoresSafeArea()
                 .overlay(
-                    VStack(spacing: 10) { // Adjust the spacing between elements
-                        HStack {
-                            Text("Leaderboard")
-                                .font(.largeTitle)
-                                .multilineTextAlignment(.leading)
-                            Image(systemName: "rosette")
-                                .font(.title)
-                        }
-                        .padding(.top, 35)
+                    VStack(spacing: 20) { // Adjust the spacing between elements
+                           Text("Leaderboard")
+                                .font(Font.custom("Montserrat-SemiBold", size: 30))
+                                .foregroundColor(Color("Harmony"))
+                               .multilineTextAlignment(.leading)
+                            
+                    .padding(.top, 35)
                         
                         List(leaderData.leaders.sorted { $0.points > $1.points }) { leader in
                             VStack{
@@ -48,11 +46,11 @@ struct LeaderboardView: View {
                                 Rectangle()
                                     .fill(Color("Enthusiasm"))
                                     .frame(width: mapPointsToWidth(points: leader.points), height: 15)
+                                    .cornerRadius(10)
                             }
                         }
                         .listRowInsets(EdgeInsets()) // Remove extra padding from List rows
-                       
-                        
+   
                         VStack(alignment: .leading) {
                             Text("This Cycle Goal")
                                 .font(Font.custom("Montserrat-Medium",size:23))
@@ -82,6 +80,10 @@ struct LeaderboardView: View {
                                         didSelectType: { type in
                                 displayMode = type // Update the selected type (reward or punishment)
                             })
+                            .font(Font
+                            .custom("Montserrat-Regular",size:18))
+                            .foregroundColor(Color("Dependability"))
+                            
                         }
                         
                     }

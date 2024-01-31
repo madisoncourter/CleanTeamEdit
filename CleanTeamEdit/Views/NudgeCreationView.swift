@@ -218,6 +218,8 @@ struct NudgePromptSelectionView: View {
     }*/
 }
 
-#Preview {
-    NudgeCreationView()
+struct NudgeCreationView1_Previews: PreviewProvider {
+    static var previews: some View {
+        NudgeCreationView()
+    }
 }
