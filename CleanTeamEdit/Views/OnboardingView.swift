@@ -29,7 +29,7 @@ struct OnboardingView: View {
                                 Button("Skip", action: goToFive)
                                     .font(Font.custom("Montserrat-Medium", size: 18))
                                     .foregroundColor(Color("Serenity"))
-                                    .padding(.horizontal, 10)
+                                    .padding(.horizontal, 20)
                                     .font(.title3)
                             }
                         }

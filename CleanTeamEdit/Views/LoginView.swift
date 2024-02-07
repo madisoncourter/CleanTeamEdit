@@ -34,9 +34,11 @@ struct LoginView: View {
                         .autocorrectionDisabled()
                         .autocapitalization(.none)
                         .listRowBackground(Color("Tidy"))
+                        .foregroundColor(Color("Serenity"))
                     SecureField("Password", text: $viewModel.password)
                         .textFieldStyle(DefaultTextFieldStyle())
                         .listRowBackground(Color("Tidy"))
+                        .foregroundColor(Color("Serenity"))
                     CTButton(
                         title: "Login",
                         background: Color("Dependability")

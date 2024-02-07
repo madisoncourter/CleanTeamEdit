@@ -25,14 +25,17 @@ struct RegisterView: View {
                     .textFieldStyle(DefaultTextFieldStyle())
                     .autocorrectionDisabled()
                     .listRowBackground(Color("Tidy"))
+                    .foregroundColor(Color("Serenity"))
                 TextField("Email Address", text: $viewModel.email)
                     .textFieldStyle(DefaultTextFieldStyle())
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
                     .listRowBackground(Color("Tidy"))
+                    .foregroundColor(Color("Serenity"))
                 SecureField("Password", text: $viewModel.password)
                     .textFieldStyle(DefaultTextFieldStyle())
                     .listRowBackground(Color("Tidy"))
+                    .foregroundColor(Color("Serenity"))
                 
                 CTButton(
                     title: "Create Account",

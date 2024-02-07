@@ -6,78 +6,89 @@
 //
 import SwiftUI
 
+enum NudgeViewType {
+    case inbox
+    case outbox
+}
 
 struct NudgeRepository: View {
     @StateObject private var viewModel = NudgeRepositoryModel()
     @State private var searchText = ""
+    @State private var selectedView: NudgeViewType = .inbox // Default view is inbox
     
-    //Navigation Title Color
     init() {
-        // Set custom font for large title text in the navigation bar
         if let customFont = UIFont(name: "MontserratAlternates-SemiBold", size: 34.0) {
             UINavigationBar.appearance().largeTitleTextAttributes = [
                 .foregroundColor: UIColor(named: "Harmony") ?? .purple,
                 .font: customFont
             ]
-        } 
+        }
     }
 
     var body: some View {
         NavigationView {
-            ZStack{
+            ZStack {
                 Color("Tidy")
-                .ignoresSafeArea()
-            VStack {
-                SearchBar(text: $searchText)
-                
-                List {
-                    ForEach(viewModel.filteredNudges(searchText: searchText)) { nudge in
-                        NavigationLink(destination: NudgeDetailView(nudge: nudge)) {
-                            HStack {
-                                Circle()
-                                .fill(Color("Tidy Darker"))
-                                .frame(width: 60, height: 60)
-                                    .overlay(
-                                        Image("DisappointedTerryFlipped") //change to Disappointed Terry Flipped
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 50, height: 50)
-                                            .foregroundColor(.white)
-                                        
-                                    )
-                                    .padding(.trailing, 8)
-                                
-                                VStack(alignment: .leading) {
-                                    Text(nudge.message)
-                                    Text("Sent on \(formattedDate(from: nudge.date))")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
+                    .ignoresSafeArea()
+
+                VStack {
+                    Picker("Select View", selection: $selectedView) {
+                        Text("Inbox").tag(NudgeViewType.inbox)
+                        Text("Sent").tag(NudgeViewType.outbox)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+                    
+                    SearchBar(text: $searchText)
+
+                    List {
+                        ForEach(viewModel.filteredNudges(searchText: searchText)) { nudge in
+                            NavigationLink(destination: NudgeDetailView(nudge: nudge)) {
+                                HStack {
+                                    Circle()
+                                        .fill(Color("Tidy Darker"))
+                                        .frame(width: 60, height: 60)
+                                        .overlay(
+                                            Image("DisappointedTerryFlipped")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 50, height: 50)
+                                                .foregroundColor(.white)
+                                        )
+                                        .padding(.trailing, 8)
+
+                                    VStack(alignment: .leading) {
+                                        Text(nudge.message)
+                                        Text("Received on \(formattedDate(from: nudge.date))")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
                                 }
                             }
+                            .listRowBackground(Color("Tidy"))
+                            .listRowSeparatorTint(Color("Enthusiasm"))
                         }
-                        .listRowBackground(Color("Tidy"))
-                        .listRowSeparatorTint(Color("Enthusiasm"))
+                        .onDelete { indexSet in
+                            viewModel.removeNudges(at: indexSet)
+                        }
                     }
-                    .onDelete { indexSet in
-                        // Remove nudges at specified index set
-                        viewModel.removeNudges(at: indexSet)
-                    }
+                    .listStyle(.plain)
                 }
-                .listStyle(.plain)
+                .navigationBarTitle(selectedView == .inbox ? "Nudge Inbox" : "Sent Nudges")
+
+                .navigationBarItems(trailing: NavigationLink(destination: NudgeCreationView(), label: {
+                    Image(systemName: "plus")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 23, height:23)
+                        .foregroundColor(Color("Enthusiasm"))
+                        .fontWeight(.bold)
+                        .padding()
+                }))
+                
             }
-            .navigationTitle("Nudge Inbox")
-            
-            .navigationBarItems(trailing: NavigationLink(destination: NudgeCreationView(), label: {
-                Image(systemName: "plus")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 17, height: 17)
-                    .foregroundColor(Color("Enthusiasm"))
-            }))
-        }
         }
     }
-    
 
     func formattedDate(from date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -129,7 +140,6 @@ struct NudgeDetailView: View {
         ZStack{
             Color("Tidy")
             .ignoresSafeArea()
-            .overlay(
         VStack{
             Text(nudge.message)
                 .padding()
@@ -140,18 +150,15 @@ struct NudgeDetailView: View {
                         .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: .infinity)
                 )
                 .offset(x:-50,y:40)
+                .padding()
             Image("DisappointedTerry")// Change to Dissapointed Terry
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 300, height: 300)
                 .offset(x:70,y:50)
         }
-        )
     }
-
-
-        .padding()
-        .navigationTitle("Your Message")
+    .navigationTitle("Your Message")
     }
 }
 
@@ -163,7 +170,7 @@ struct SearchBar: View {
             TextField("Search", text: $text)
                 .padding(7)
                 .padding(.horizontal, 25)
-                .background(Color(.systemGray6))
+                .background(Color("Tidy Darker"))
                 .cornerRadius(8)
                 .overlay(
                     HStack {

@@ -34,11 +34,12 @@ struct OnboardingPageView: View {
                 .font(Font.custom("Montserrat-Medium", size: 18))
                 .foregroundColor(Color("Serenity"))
                 .padding(.top,10)
+                .padding(.horizontal, 15)
                 .frame(width: 350)
                 .multilineTextAlignment(.center)
                 .lineSpacing(10)
             
-            // Spacer()
+            Spacer()
         }
         )
     }

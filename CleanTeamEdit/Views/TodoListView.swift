@@ -79,7 +79,10 @@ struct TodoListView: View {
                         viewModel.showingNewItemView = true
                     } label: {
                         Image(systemName: "plus")
+                            .frame(width: 25, height:25)
                             .foregroundColor(Color("Enthusiasm"))
+                            .fontWeight(.bold)
+                            .padding()
                     }
                     
                 }
