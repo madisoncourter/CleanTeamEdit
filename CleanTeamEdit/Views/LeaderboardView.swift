@@ -50,27 +50,35 @@ struct LeaderboardView: View {
                             }
                         }
                         .listRowInsets(EdgeInsets()) // Remove extra padding from List rows
-   
+                        .background(Color("Tidy"))
+                        
                         VStack(alignment: .leading) {
                             Text("This Cycle Goal")
                                 .font(Font.custom("Montserrat-Medium",size:23))
                                 .foregroundColor(Color("Serenity"))
+                                .padding(.bottom)
                             Text("Competing to Reach 200 Points")
                                 .font(Font.custom("Montserrat-Regular",size:18))
                                 .foregroundColor(Color("Serenity"))
+                                .padding(.bottom)
                             Text("Cycle \(displayMode == .rewards ? "Reward" : "Punishment"): \(displayMode == .rewards ? selectedReward : selectedPunishment)")
                                 .font(Font.custom("Montserrat-Regular",size:18))
-                                .foregroundColor(Color("Serenity"))
-                            
-                            
+                                .foregroundColor(Color("Enthusiasm"))
                         }
-                        Button(action: {
-                            showRewards.toggle()
-                        }) {
-                            Text("Select Reward/Punishment")
-                                .font(Font.custom("Montserrat-Regular",size:18))
-                                .foregroundColor(Color("Dependability"))
-                        }
+                        
+                        // Button
+                            HStack{
+                                VStack{
+                                    CTButton(title: "View Options", background: Color("Dependability")) {
+                                        showRewards.toggle()
+                                    }
+                                    .frame(width:300, height:80)
+                                    .padding(.bottom, 50.0)
+                                }
+                                .font(Font.custom("Montserrat-Medium",size:15))
+                
+                                    .frame(height: 140.0)
+                            }
                         .sheet(isPresented: $showRewards) {
                             RewardsPage(selectedReward: $selectedReward, selectedPunishment:$selectedPunishment,displayMode: $displayMode, didSelectReward: { reward in
                                 selectedReward = reward // Update the selected reward

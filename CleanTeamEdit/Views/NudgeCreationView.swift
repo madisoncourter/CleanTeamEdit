@@ -61,6 +61,7 @@ struct NudgeCreationView: View {
                 .padding()
                 
                 // Chore Categories
+                
                 HStack{
                     Text("Prompts By Category")
                         .font(Font.custom("Montserrat-SemiBold", size: 20))
@@ -70,30 +71,26 @@ struct NudgeCreationView: View {
                     
                     Spacer()
                 }
-                HStack {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(nudgeCreationViewModel.choreCategories) { category in
-                                NavigationLink(destination: NudgePromptSelectionView(category: category, viewModel: nudgeCreationViewModel, selectedCategory: $selectedCategory, selectedRoommate: $selectedRoommate)) {
-                                    VStack {
-                                        Image(category.image)
-                                            .resizable()
-                                            .frame(width: 120, height: 120)
-                                            .overlay(
-                                                Circle()
-                                                    .stroke(selectedCategory?.id == category.id ? Color("Serenity") : Color.clear, lineWidth: 2)
-                                            )
-                                        Text(category.name)
-                                            .font(Font.custom("Montserrat-Regular", size: 16))
-                                            .foregroundColor(Color("Serenity"))
-                                    }
-                                }
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
+                    ForEach(nudgeCreationViewModel.choreCategories) { category in
+                        NavigationLink(destination: NudgePromptSelectionView(category: category, viewModel: nudgeCreationViewModel, selectedCategory: $selectedCategory, selectedRoommate: $selectedRoommate)) {
+                            VStack {
+                                Image(category.image)
+                                    .resizable()
+                                    .frame(width: 120, height: 120)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(selectedCategory?.id == category.id ? Color("Serenity") : Color.clear, lineWidth: 2)
+                                    )
+                                Text(category.name)
+                                    .font(Font.custom("Montserrat-Regular", size: 16))
+                                    .foregroundColor(Color("Serenity"))
+                                    .padding(.top, -30.0)
                             }
                         }
                     }
-                    .padding()
-                    Spacer() // Add Spacer to center the images vertically
                 }
+                .padding()
             }
 
 
@@ -333,8 +330,10 @@ struct NudgePromptSelectionView: View {
         )
     }
 }
-
-
-#Preview {
-    NudgeCreationView()
+struct NudgeCreationView1_Previews: PreviewProvider {
+    static var previews: some View {
+        NudgeCreationView()
+    }
 }
+
+

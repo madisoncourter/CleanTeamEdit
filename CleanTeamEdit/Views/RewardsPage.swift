@@ -50,6 +50,7 @@ struct RewardsPage: View {
     @State private var newPunishmentText = ""
     
     //Navigation Title Color
+    @Environment(\.presentationMode) var presentationMode
     
     
     var body: some View {
@@ -126,10 +127,28 @@ struct RewardsPage: View {
                     
                 }
                 .padding(.bottom)
+                VStack{
+                    CTButton(title: "Save Changes", background: Color("Dependability")) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .frame(width:300, height:80)
+                    .padding(.bottom, 50.0)
+                }
+                .font(Font.custom("Montserrat-Medium",size:15))
             }
+            .navigationBarItems(leading:
+                                Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }){
+                Image(systemName:"arrow.left")
+                    .foregroundColor(Color("Enthusiasm"))
+              }
+             )
+          }
          //   .navigationTitle(displayMode == .rewards ? "Rewards" : "Punishments")
         }
-    }
+    
+    
     
     func addNewReward() {
         guard !newRewardText.isEmpty else { return }
