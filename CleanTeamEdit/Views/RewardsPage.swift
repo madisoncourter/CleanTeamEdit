@@ -57,8 +57,8 @@ struct RewardsPage: View {
         NavigationView {
             VStack {
                 Text(displayMode == .rewards ? "Rewards" : "Punishments")
-                     .font(Font.custom("Montserrat-SemiBold", size: 30))
-                     .foregroundColor(Color("Harmony"))
+                    .font(Font.custom("Montserrat-SemiBold", size: 30))
+                    .foregroundColor(Color("Harmony"))
                     .multilineTextAlignment(.leading)
                     .padding(.top, 20.0)
                 //toggles between rewards & punishments
@@ -102,7 +102,7 @@ struct RewardsPage: View {
                         Text("Select a punishment for this cycle's loser")
                             .font(Font.custom("Montserrat-Medium",size:18))
                         ForEach($punishments) { $punishment in
-                    PunishmentRow(punishment: $punishment, punishments: $punishments,selectedPunishment: $selectedPunishment, didSelectPunishment: didSelectPunishment)
+                            PunishmentRow(punishment: $punishment, punishments: $punishments,selectedPunishment: $selectedPunishment, didSelectPunishment: didSelectPunishment)
                         }
                         VStack(alignment: .leading){
                             Text("Create a new punishment.")
@@ -126,6 +126,7 @@ struct RewardsPage: View {
                     }
                     
                 }
+            
                 .padding(.bottom)
                 VStack{
                     CTButton(title: "Save Changes", background: Color("Dependability")) {
