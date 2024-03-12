@@ -34,6 +34,8 @@ struct MainView: View {
                             .foregroundColor(Color("Dependability")) 
                     }
             }
+            .accentColor(Color("Dependability"))
+
         } else {
             LoginView()
         }

@@ -19,7 +19,6 @@ struct CTButton: View {
             ZStack{
                 RoundedRectangle(cornerRadius: 50)
                     .foregroundColor(background)
-                
                 Text(title)
                     .foregroundColor(Color.white)
                     .bold()

@@ -40,20 +40,22 @@ struct TodoListView: View {
             ZStack{
                 Color("Tidy")
                 .ignoresSafeArea()
-                .overlay(
+                Image("UpwardRoundedAccentDarkCropped")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .offset(x:-20,y:180)
+                    .opacity(0.5)
+                    .colorMultiply(Color("Tidy")) // Set the tint color
                 VStack{
                     HStack{
                         Text("Your Chores")
                             .font(Font.custom("Montserrat-SemiBold", size: 25, relativeTo: .title))
-                        //.fontWeight(.bold)
                             .foregroundColor(Color("Serenity"))
                             .padding(.top, 10)
                             .padding(.leading, 20)
                         Spacer()
                     }
-                    
                     VStack {
-                        
                         List(items) { item in
                             TodoListItemView(item: item)
                                 .swipeActions {
@@ -61,14 +63,14 @@ struct TodoListView: View {
                                         viewModel.delete(id: item.id)
                                     }
                                     .tint(.red)
-                                    
                                 }
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.white)
-                                    .shadow(radius: 3))
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 8)
+                                    .fill(Color.white))
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, -3)
+                                .listRowBackground(Color("Tidy"))
+                                .listRowSeparatorTint(Color("Tidy"))
                         }
                         .listStyle(PlainListStyle())
                     }
@@ -79,7 +81,9 @@ struct TodoListView: View {
                         viewModel.showingNewItemView = true
                     } label: {
                         Image(systemName: "plus")
-                            .frame(width: 25, height:25)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 23, height:23)
                             .foregroundColor(Color("Enthusiasm"))
                             .fontWeight(.bold)
                             .padding()
@@ -89,7 +93,6 @@ struct TodoListView: View {
                 .sheet(isPresented: $viewModel.showingNewItemView) {
                     NewItemView(newItemPresented: $viewModel.showingNewItemView)
                 }
-                )
             }
         }
     }

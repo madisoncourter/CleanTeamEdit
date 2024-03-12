@@ -55,99 +55,148 @@ struct RewardsPage: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                Text(displayMode == .rewards ? "Rewards" : "Punishments")
-                    .font(Font.custom("Montserrat-SemiBold", size: 30))
-                    .foregroundColor(Color("Harmony"))
-                    .multilineTextAlignment(.leading)
-                    .padding(.top, 20.0)
-                //toggles between rewards & punishments
-                Picker("Display Mode", selection: $displayMode) {
-                    Text("Rewards").tag(DisplayMode.rewards)
-                        .font(Font.custom("Montserrat-Medium",size:15))
-                    Text("Punishments").tag(DisplayMode.punishments)
-                        .font(Font.custom("Montserrat-Medium",size:15))
-                }
-                .font(Font.custom("Montserrat-Medium",size:15))
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-                List {
-                    if displayMode == .rewards {
-                        Text("Select a reward for this cycle's winner")
-                            .font(Font.custom("Montserrat-Medium",size:18))
-                        ForEach($rewards) { $reward in
-                            RewardRow(reward: $reward,rewards: $rewards, selectedReward: $selectedReward, didSelectReward: didSelectReward)
-                        }
-                        VStack(alignment:.leading){
-                            Text("Create a new reward:")
+            ZStack{
+                Color("Tidy")
+                    .ignoresSafeArea()
+                VStack {
+                    Text(displayMode == .rewards ? "Rewards" : "Punishments")
+                        .font(Font.custom("Montserrat-SemiBold", size: 30))
+                        .foregroundColor(Color("Harmony"))
+                        .multilineTextAlignment(.leading)
+                    //.padding(.top)
+                    //toggles between rewards & punishments
+                    Picker("Display Mode", selection: $displayMode) {
+                        Text("Rewards").tag(DisplayMode.rewards)
+                            .font(Font.custom("Montserrat-Medium",size:15))
+                        Text("Punishments").tag(DisplayMode.punishments)
+                            .font(Font.custom("Montserrat-Medium",size:15))
+                    }
+                    .font(Font.custom("Montserrat-Medium",size:15))
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+                    
+                    
+                    List {
+                        if displayMode == .rewards {
+                            /* Text("Select a reward for this cycle's winner")
+                             .font(Font.custom("Montserrat-Medium",size:18))*/
+                            
+                            Text("Select a ")
+                                .font(Font.custom("Montserrat-Medium",size:18))
+                            + Text("reward")
+                                .bold()
+                                .font(Font.custom("Montserrat-Medium",size:18))
+                            + Text(" for this cycle's winner")
                                 .font(Font.custom("Montserrat-Medium",size:18))
                             
-                            HStack{
-                                TextField("New Reward", text: $newRewardText)
-                                    .font(Font.custom("Montserrat-Regular",size:15))
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding()
-                                Button(action: {
-                                    addNewReward()
-                                }) {
-                                    Text("Add New")
-                                        .font(Font.custom("Montserrat-Medium",size:15))
-                                        .foregroundColor(Color("Dependability"))
-                                    
+                            
+                            ForEach($rewards) { $reward in
+                                RewardRow(reward: $reward,rewards: $rewards, selectedReward: $selectedReward, didSelectReward: didSelectReward)
+                            }
+                            .listRowSeparatorTint(Color("Enthusiasm"))
+                            
+                            VStack(alignment:.leading){
+                                Text("Create new reward")
+                                    .font(Font.custom("Montserrat-Medium",size:17))
+                                    .padding(.top,5)
+                                
+                                HStack{
+                                    TextField("New Reward", text: $newRewardText)
+                                        .font(Font.custom("Montserrat-Regular",size:15))
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .padding(.horizontal)
+                                        .padding(.bottom)
+                                        .foregroundColor(Color("Serenity"))
+                                    Button(action: {
+                                        addNewReward()
+                                    }) {
+                                        Text("Add New")
+                                            .font(Font.custom("Montserrat-Medium",size:15))
+                                            .foregroundColor(Color("Dependability"))
+                                        
+                                    }
                                 }
                             }
-                        }
-                        
-                    } else {
-                        Text("Select a punishment for this cycle's loser")
-                            .font(Font.custom("Montserrat-Medium",size:18))
-                        ForEach($punishments) { $punishment in
-                            PunishmentRow(punishment: $punishment, punishments: $punishments,selectedPunishment: $selectedPunishment, didSelectPunishment: didSelectPunishment)
-                        }
-                        VStack(alignment: .leading){
-                            Text("Create a new punishment.")
+                            
+                        }else {
+                            Text("Select a ")
                                 .font(Font.custom("Montserrat-Medium",size:18))
-                            HStack{
-                                TextField("New Punishment", text: $newPunishmentText)
-                                    .font(Font.custom("Montserrat-Regular",size:15))
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .padding()
-                                Button(action: {
-                                    addNewPunishment()
-                                }) {
-                                    Text("Add New")
-                                        .font(Font.custom("Montserrat-Medium",size:15))
-                                        .foregroundColor(Color("Dependability"))
-                                    
+                            + Text("punishment")
+                                .bold()
+                                .font(Font.custom("Montserrat-Medium",size:18))
+                            + Text(" for this cycle's winner")
+                                .font(Font.custom("Montserrat-Medium",size:18))
+                            
+                            ForEach($punishments) { $punishment in
+                                PunishmentRow(punishment: $punishment, punishments: $punishments,selectedPunishment: $selectedPunishment, didSelectPunishment: didSelectPunishment)
+                            }
+                            .listRowSeparatorTint(Color("Enthusiasm"))
+                            
+                            VStack(alignment: .leading){
+                                Text("Create new punishment")
+                                    .font(Font.custom("Montserrat-Medium",size:17))
+                                    .padding(.top,5)
+                                HStack{
+                                    TextField("New Punishment", text: $newPunishmentText)
+                                        .font(Font.custom("Montserrat-Regular",size:15))
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .padding(.horizontal)
+                                        .padding(.bottom)
+                                    //.padding(.bottom)
+                                        .foregroundColor(Color("Serenity"))
+                                    Button(action: {
+                                        addNewPunishment()
+                                    }) {
+                                        Text("Add New")
+                                            .font(Font.custom("Montserrat-Medium",size:15))
+                                            .foregroundColor(Color("Dependability"))
+                                        
+                                    }
                                 }
                             }
+                            
                         }
-                        
                     }
+                    .listStyle(PlainListStyle())
+                    .cornerRadius(20)
+                    // .padding(.bottom)
+                    .padding(.horizontal)
+                    .padding(.top)
                     
-                }
-            
-                .padding(.bottom)
-                VStack{
-                    CTButton(title: "Save Changes", background: Color("Dependability")) {
-                        presentationMode.wrappedValue.dismiss()
+                    VStack{
+                        CTButton(title: "Add New", background: Color("Dependability")) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                        .frame(width:300, height:80)
+                        .padding(.bottom, 50.0)
                     }
-                    .frame(width:300, height:80)
-                    .padding(.bottom, 50.0)
+                    .font(Font.custom("Montserrat-Medium",size:15))
                 }
-                .font(Font.custom("Montserrat-Medium",size:15))
-            }
-            .navigationBarItems(leading:
-                                Button(action: {
-                presentationMode.wrappedValue.dismiss()
-            }){
-                Image(systemName:"arrow.left")
-                    .foregroundColor(Color("Enthusiasm"))
-              }
-             )
-          }
-         //   .navigationTitle(displayMode == .rewards ? "Rewards" : "Punishments")
+                /* .navigationBarItems(trailing:
+                 Button(action: {
+                 presentationMode.wrappedValue.dismiss()
+                 }){
+                 Image(systemName:"chevron.down")
+                 .foregroundColor(Color("Enthusiasm"))
+                 .fontWeight(.bold)
+                 .padding(.horizontal, 20)
+                 .padding(.top, 20)
+                 }
+                 )*/
+                .navigationBarItems(leading:
+                    Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }){
+                    Image(systemName:"arrow.left")
+                     .foregroundColor(Color("Enthusiasm"))
+                     .fontWeight(.bold)
+                     .padding(.top,15)
+                    }
+                )
         }
+    }
+         //   .navigationTitle(displayMode == .rewards ? "Rewards" : "Punishments")
+}
     
     
     

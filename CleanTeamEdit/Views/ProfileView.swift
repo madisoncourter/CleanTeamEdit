@@ -25,8 +25,15 @@ struct ProfileView: View {
 
         NavigationView {
             ZStack{
-               Color("Tidy")
-                .ignoresSafeArea()
+                Color("Tidy")
+                    .ignoresSafeArea()
+                Image("UpwardRoundedAccentDarkCropped")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    //.frame(width:350, height:350)
+                    .offset(x:-20,y:180)
+                    .opacity(0.5)
+                    .colorMultiply(Color("Tidy")) // Set the tint color
             VStack{
                 if let user = viewModel.user{
                     profile(user: user)

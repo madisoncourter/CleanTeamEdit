@@ -16,6 +16,8 @@ struct NewItemView: View {
     @State private var penalty = 0
     @State private var selectedCategory: String?
     
+    @Environment(\.presentationMode) var presentationMode
+    
     let tidyColor = UIColor(red: 245/255.0, green: 246/255.0, blue: 253/255.0, alpha: 1.0)
     let harmonyColor = UIColor(red: 114/255.0, green: 132/255.0, blue: 200/255.0, alpha: 1.0)
     let serenityColor = UIColor(red: 30/255.0, green: 37/255.0, blue: 71/255.0, alpha: 1.0)
@@ -25,14 +27,30 @@ struct NewItemView: View {
     
     var body: some View {
         ZStack{
-            Color("Tidy")
+           Color("Tidy")
                 .ignoresSafeArea()
-                .overlay(
                     VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }) {
+                            Image(systemName: "chevron.down")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 23, height:23)
+                                    .foregroundColor(Color("Enthusiasm"))
+                                    .fontWeight(.bold)
+                                    .padding()
+                                    .padding(.horizontal,10)
+                            }
+                        }
+                        .padding(.top, 20)
+                        
                         Text("New Chore")
                             .font(Font.custom("Montserrat-SemiBold", size: 32, relativeTo: .title))
                             .foregroundColor(Color("Harmony"))
-                            .padding(.top, 20)
+                            .padding(.top, -20)
                         
                         VStack {
                             Form {
@@ -82,12 +100,7 @@ struct NewItemView: View {
                                                 .foregroundColor(Color("Serenity"))
                                                 .padding(.horizontal, 20.0)
                                         }
-                                        
-                                        //                            HStack {
-                                        //                                MemberButton(imageName: "Trashw:Background")
-                                        //                                MemberButton(imageName: "Trashw:Background")
-                                        //                                MemberButton(imageName: "Trashw:Background")
-                                        //                            }
+                                    
                                         
                                         HStack {
                                             Toggle("Rotation", isOn: $rotateIsToggled)
@@ -114,28 +127,27 @@ struct NewItemView: View {
                                             viewModel.showAlert = true
                                         }
                                     }
-                                    .frame(width: 200)
                                     Spacer()
                                 }
+                                
                             }
                             .tint(Color("Dependability"))
-                            .background(Color("Tidy"))
-                            .scrollContentBackground(.hidden)
+                            .scrollIndicators(ScrollIndicatorVisibility.hidden)
                             .alert(isPresented: $viewModel.showAlert) {
-                                Alert(title: Text("Error"), message: Text("Please fill in a name and date and select a due date that is today or newer."))
+                                Alert(title: Text("Error"), message: Text("Please add a name and select a due date that is today or later."))
                             }
                         }
                     }
-                )
+                    .background(Color("Tidy"))
         }
     }
-    
+
     struct CategoryButton: View {
         var imageName: String
         var caption: String
         @Binding var selectedCategory: String?
-        let serenityColor = UIColor(red: 30/255.0, green: 37/255.0, blue: 71/255.0, alpha: 1.0)
-        let dependabilityColor = UIColor(red: 58/255.0, green: 74/255.0, blue: 146/255.0, alpha: 1.0)
+        let serenityColor = Color(red: 30/255.0, green: 37/255.0, blue: 71/255.0, opacity: 1.0)
+        let dependabilityColor = Color(red: 58/255.0, green: 74/255.0, blue: 146/255.0, opacity: 1.0)
         
         var body: some View {
             let isSelected = selectedCategory == caption
@@ -145,23 +157,19 @@ struct NewItemView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 90, height: 90)
-                    .overlay(
-                        Circle()
-                            .strokeBorder(Color(dependabilityColor), lineWidth: 4)
-                            .frame(width:60, height: 60)
-                            .opacity(isSelected ? 1 : 0)
-                    )
+                    .opacity(isSelected ? 0.45 : 1) // Adjust the opacity as needed
                     .onTapGesture {
                         selectedCategory = isSelected ? nil : caption
                     }
                 
                 Text(caption)
                     .font(.caption)
-                    .foregroundColor(Color(serenityColor))
+                    .foregroundColor(serenityColor)
             }
             .padding()
         }
     }
+
     
     struct MemberButton: View {
         var imageName:String

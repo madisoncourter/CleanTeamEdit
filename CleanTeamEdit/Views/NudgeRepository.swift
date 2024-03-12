@@ -17,20 +17,55 @@ struct NudgeRepository: View {
     @State private var selectedView: NudgeViewType = .inbox // Default view is inbox
     
     init() {
-        if let customFont = UIFont(name: "MontserratAlternates-SemiBold", size: 34.0) {
-            UINavigationBar.appearance().largeTitleTextAttributes = [
-                .foregroundColor: UIColor(named: "Harmony") ?? .purple,
-                .font: customFont
-            ]
-        }
+        let navBarAppearance = UINavigationBarAppearance()
+        
+        navBarAppearance.backgroundColor = UIColor(named: "Tidy")
+
+        // Set large title text attributes
+        navBarAppearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor(named: "Harmony") ?? .purple,
+            .font: UIFont(name: "MontserratAlternates-SemiBold", size: 35)!
+        ]
+
+        // Set title text attributes
+        navBarAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor(named: "Harmony") ?? .purple,
+            .font: UIFont(name: "MontserratAlternates-SemiBold", size: 20)!
+        ]
+
+        // Set back button color
+        UINavigationBar.appearance().tintColor = UIColor(named: "Enthusiasm") ?? .purple
+
+        navBarAppearance.shadowColor = .clear
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.clear]
+
+
+        // Set standard, scrollEdge, and compact appearances
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        /*UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance*/
+        UINavigationBar.appearance().compactAppearance = navBarAppearance
+
+        // Set back button color
+            UIBarButtonItem.appearance().tintColor = UIColor(named: "Enthusiasm") ?? .orange
+
+            // Set back button image
+            let arrowImage = UIImage(systemName: "arrow.left")
+            navBarAppearance.setBackIndicatorImage(arrowImage, transitionMaskImage: arrowImage)
     }
+
 
     var body: some View {
         NavigationView {
             ZStack {
                 Color("Tidy")
                     .ignoresSafeArea()
-
+                Image("UpwardRoundedAccentDarkCropped")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    //.frame(width:350, height:350)
+                    .offset(x:-20,y:180)
+                    .opacity(0.5)
+                    .colorMultiply(Color("Tidy")) // Set the tint color
                 VStack {
                     Picker("Select View", selection: $selectedView) {
                         Text("Inbox").tag(NudgeViewType.inbox)
@@ -75,7 +110,6 @@ struct NudgeRepository: View {
                     .listStyle(.plain)
                 }
                 .navigationBarTitle(selectedView == .inbox ? "Nudge Inbox" : "Sent Nudges")
-
                 .navigationBarItems(trailing: NavigationLink(destination: NudgeCreationView(), label: {
                     Image(systemName: "plus")
                         .resizable()
@@ -146,7 +180,7 @@ struct NudgeDetailView: View {
                 .background(
                     RoundedRectangle(cornerRadius: 50)
                         .fill(Color.white)
-                        .shadow(radius: 3)
+                        //.shadow(radius: 3)
                         .frame(minWidth: 0, maxWidth: 300, minHeight: 0, maxHeight: .infinity)
                 )
                 .offset(x:-50,y:40)
@@ -156,9 +190,41 @@ struct NudgeDetailView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 300, height: 300)
                 .offset(x:70,y:50)
+            
+            Spacer()
+            
+           VStack {
+               VStack{
+                   CTButton(title: "Mark as Complete", background: Color("Dependability")) {
+                       
+                   }
+                   .frame(width:300, height:80)
+               }
+               .font(Font.custom("Montserrat-Medium",size:15))
+               .padding(.bottom,-10)
+               
+              //  Spacer()
+                
+                Button(action: {
+                        // Handle deletion
+                    }) {
+                        Text("Delete")
+                        .font(Font.custom("Montserrat-SemiBold",size:17))
+                        .padding(.horizontal,100)
+                        .padding(.vertical,10)
+                        .foregroundColor(Color("Serenity"))
+                        .background(RoundedRectangle(cornerRadius: 50).fill(Color("Tidy")))
+                        .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color("Serenity"), lineWidth: 2))
+                }
+            }
+            .font(Font.custom("Montserrat-Medium",size:15))
+            .padding(.horizontal)
+            .padding(.bottom,30)
         }
+        .padding(.top, 20)
     }
     .navigationTitle("Your Message")
+        
     }
 }
 
